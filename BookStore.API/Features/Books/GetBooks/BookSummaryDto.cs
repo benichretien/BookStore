@@ -1,10 +1,10 @@
-﻿namespace BookStore.API.Dtos
+﻿namespace BookStore.API.Features.Books.GetBooks
 {
-    public record BookDetailsDto(
+    public record BookSummaryDto(
         Guid Id,
         string Title,
         string Author,
-        Guid GenreId,
+        string Genre,
         decimal Price,
         DateOnly PublishedDate
     );

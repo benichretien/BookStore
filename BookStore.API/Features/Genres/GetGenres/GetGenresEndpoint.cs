@@ -1,0 +1,20 @@
+﻿using BookStore.API.Data;
+
+namespace BookStore.API.Features.Genres.GetGenres
+{
+    public static class GetGenresEndpoint
+    {
+        public static void MapGetGenres(this IEndpointRouteBuilder app, BookStoreData data)
+        {
+            // GET /genres
+            app.MapGet("", () =>
+            {
+                GetGenresHandler handler = new(data);
+
+                List<GenreDto> genres = handler.Handle();
+
+                return TypedResults.Ok(genres);
+            });
+        }
+    }
+}
