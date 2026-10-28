@@ -9,13 +9,12 @@ namespace BookStore.API.Features.Books.GetBook
     {
         public const string Name = "GetBook";
 
-        public static void MapGetBook(this IEndpointRouteBuilder app, BookStoreData data)
+        public static void MapGetBook(this IEndpointRouteBuilder app)
         {
             // GET /books/{id}
-            app.MapGet("/{id:guid}", Results<Ok<BookDetailsDto>, NotFound> (Guid id) =>
+            app.MapGet("/{id:guid}", Results<Ok<BookDetailsDto>, NotFound> (Guid id, GetBookHandler handler) =>
             {
-                GetBookHandler handler = new(data);
-
+                
                 Result<BookDetailsDto> result = handler.Handle(id);
 
                 return result.IsSuccess
