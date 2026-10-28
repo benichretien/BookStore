@@ -9,10 +9,9 @@ namespace BookStore.API.Features.Books.UpdateBook
         public static void MapUpdateBook(this IEndpointRouteBuilder app, BookStoreData data)
         {
             // PUT /books/{id}
-            app.MapPut("/{id:guid}", Results<NoContent, NotFound, ValidationProblem> (Guid id, UpdateBookDto updatedBook) =>
+            app.MapPut("/{id:guid}", Results<NoContent, NotFound, ValidationProblem> (Guid id, UpdateBookDto updatedBook, UpdateBookHandler handler) =>
             {
-                UpdateBookHandler handler = new(data);
-
+                 
                 Result result = handler.Handle(id, updatedBook);
 
                 if (result.IsSuccess)
