@@ -7,10 +7,8 @@ namespace BookStore.API.Features.Genres.GetGenres
         public static void MapGetGenres(this IEndpointRouteBuilder app, BookStoreData data)
         {
             // GET /genres
-            app.MapGet("", () =>
+            app.MapGet("", (GetGenresHandler handler) =>
             {
-                GetGenresHandler handler = new(data);
-
                 List<GenreDto> genres = handler.Handle();
 
                 return TypedResults.Ok(genres);
