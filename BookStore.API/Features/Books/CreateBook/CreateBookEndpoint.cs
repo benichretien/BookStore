@@ -8,12 +8,11 @@ namespace BookStore.API.Features.Books.CreateBook
     public static class CreateBookEndpoint
     {
         
-        public static void MapCreateBook(this IEndpointRouteBuilder app, BookStoreData data)
+        public static void MapCreateBook(this IEndpointRouteBuilder app)
         {
             // POST /books
-            app.MapPost("", Results<CreatedAtRoute<BookDetailsDto>, ValidationProblem> (CreateBookDto newBook) =>
+            app.MapPost("", Results<CreatedAtRoute<BookDetailsDto>, ValidationProblem> (CreateBookDto newBook, CreateBookHandler handler) =>
             {
-                CreateBookHandler handler = new(data);
 
                 Result<BookDetailsDto> result = handler.Handle(newBook);
 
