@@ -4,13 +4,11 @@ namespace BookStore.API.Features.Books.GetBooks
 {
     public static class GetBooksEndpoint
     {
-        public static void MapGetBooks(this IEndpointRouteBuilder app, BookStoreData data)
+        public static void MapGetBooks(this IEndpointRouteBuilder app)
         {
             // GET /books
-            app.MapGet("", () =>
+            app.MapGet("", (GetBooksHandler handler) =>
             {
-                GetBooksHandler handler = new(data);
-
                 List<BookSummaryDto> books = handler.Handle();
 
                 return TypedResults.Ok(books);
