@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddValidation();
 
+builder.Services.AddSingleton<BookStoreData>();
+builder.Services.AddBooks();
+builder.Services.AddGenres();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,8 +30,8 @@ app.UseHttpsRedirection();
 
 BookStoreData data = new();
 
-app.MapBooks(data);
-app.MapGenres(data);
+app.MapBooks();
+app.MapGenres();
 app.Run();
 
 
