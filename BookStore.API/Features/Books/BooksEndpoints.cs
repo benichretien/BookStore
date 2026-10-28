@@ -10,15 +10,15 @@ namespace BookStore.API.Features.Books;
 
 public static class BooksEndpoints
 {
-    public static void MapBooks(this IEndpointRouteBuilder app, BookStoreData data)
+    public static void MapBooks(this IEndpointRouteBuilder app)
     {
         RouteGroupBuilder group = app.MapGroup("/api/books")
             .WithTags("Books");
 
-        group.MapGetBooks(data);
-        group.MapGetBook(data);
-        group.MapCreateBook(data);
-        group.MapUpdateBook(data);
-        group.MapDeleteBook(data);
+        group.MapGetBooks();
+        group.MapGetBook();
+        group.MapCreateBook();
+        group.MapUpdateBook();
+        group.MapDeleteBook();
     }
 }

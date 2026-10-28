@@ -4,7 +4,7 @@ namespace BookStore.API.Features.Books.DeleteBook
 {
     public static class DeleteBookEndpoint
     {
-        public static void MapDeleteBook(this IEndpointRouteBuilder app, BookStoreData data)
+        public static void MapDeleteBook(this IEndpointRouteBuilder app)
         {
             // DELETE /books/{id}
             app.MapDelete("/{id:guid}", (Guid id, DeleteBookHandler handler) =>
