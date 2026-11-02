@@ -72,6 +72,28 @@ namespace BookStore.API.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0c4f3b8e-5a1d-4e2b-9f6a-3d7c8b9e1f20"),
+                            Name = "Programming"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d2a9e61-3c4b-4f8d-a1e5-6b0c2d3e4f51"),
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = new Guid("a9e5c7d3-1b2f-4a6e-8c0d-9f8e7d6c5b42"),
+                            Name = "Self-Help"
+                        },
+                        new
+                        {
+                            Id = new Guid("e3b1d5f7-9a2c-4e6b-b8d0-1c3e5f7a9b63"),
+                            Name = "Science Fiction"
+                        });
                 });
 
             modelBuilder.Entity("BookStore.API.Models.Book", b =>
