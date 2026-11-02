@@ -17,7 +17,7 @@ builder.Services.AddValidation();
 builder.Services.AddDbContext<BookStoreContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddSingleton<BookStoreData>();
+
 builder.Services.AddBooks();
 builder.Services.AddGenres();
 
