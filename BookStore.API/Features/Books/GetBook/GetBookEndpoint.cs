@@ -1,27 +1,26 @@
 ﻿using BookStore.API.Common;
-using BookStore.API.Data;
-using BookStore.API.Features.Books.GetBooks;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace BookStore.API.Features.Books.GetBook
+namespace BookStore.API.Features.Books.GetBook;
+
+public static class GetBookEndpoint
 {
-    public static class GetBookEndpoint
+    public const string Name = "GetBook";
+
+    public static void MapGetBook(this IEndpointRouteBuilder app)
     {
-        public const string Name = "GetBook";
-
-        public static void MapGetBook(this IEndpointRouteBuilder app)
+        // GET /api/books/{id}
+        app.MapGet("/{id:guid}", async Task<Results<Ok<BookDetailsDto>, NotFound>> (
+            Guid id,
+            GetBookHandler handler,
+            CancellationToken cancellationToken) =>
         {
-            // GET /books/{id}
-            app.MapGet("/{id:guid}", Results<Ok<BookDetailsDto>, NotFound> (Guid id, GetBookHandler handler) =>
-            {
-                
-                Result<BookDetailsDto> result = handler.Handle(id);
+            Result<BookDetailsDto> result = await handler.HandleAsync(id, cancellationToken);
 
-                return result.IsSuccess
-                    ? TypedResults.Ok(result.Value)
-                    : TypedResults.NotFound();
-            })
-            .WithName(Name);
-        }
+            return result.IsSuccess
+                ? TypedResults.Ok(result.Value)
+                : TypedResults.NotFound();
+        })
+        .WithName(Name);
     }
 }
