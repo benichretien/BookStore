@@ -1,14 +1,21 @@
 using BookStore.API.Data;
 using BookStore.API.Features.Books;
 using BookStore.API.Features.Genres;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+string connectionString = builder.Configuration.GetConnectionString("BookStore")
+    ?? throw new InvalidOperationException("Connection string 'BookStore' was not found.");
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddValidation();
+
+builder.Services.AddDbContext<BookStoreContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddSingleton<BookStoreData>();
 builder.Services.AddBooks();
