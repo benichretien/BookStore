@@ -37,7 +37,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-BookStoreData data = new();
 
 app.MapBooks();
 app.MapGenres();
