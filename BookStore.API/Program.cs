@@ -31,6 +31,8 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/openapi/v1.json", "BookStore API v1");
     });
+
+    await app.MigrateDbAsync();
 }
 
 app.UseHttpsRedirection();
