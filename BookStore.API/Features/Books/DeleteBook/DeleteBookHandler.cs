@@ -1,12 +1,14 @@
 ﻿using BookStore.API.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.API.Features.Books.DeleteBook
+namespace BookStore.API.Features.Books.DeleteBook;
+
+public class DeleteBookHandler(BookStoreContext dbContext)
 {
-    public class DeleteBookHandler(BookStoreData data)
+    public async Task HandleAsync(Guid id, CancellationToken cancellationToken)
     {
-        public void Handle(Guid id)
-        {
-            data.RemoveBook(id);
-        }
+        await dbContext.Books
+            .Where(book => book.Id == id)
+            .ExecuteDeleteAsync(cancellationToken);
     }
 }
