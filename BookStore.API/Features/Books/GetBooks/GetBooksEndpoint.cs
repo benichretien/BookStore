@@ -1,18 +1,15 @@
-﻿using BookStore.API.Data;
+﻿namespace BookStore.API.Features.Books.GetBooks;
 
-namespace BookStore.API.Features.Books.GetBooks
+public static class GetBooksEndpoint
 {
-    public static class GetBooksEndpoint
+    public static void MapGetBooks(this IEndpointRouteBuilder app)
     {
-        public static void MapGetBooks(this IEndpointRouteBuilder app)
+        // GET /api/books
+        app.MapGet("", async (GetBooksHandler handler, CancellationToken cancellationToken) =>
         {
-            // GET /books
-            app.MapGet("", (GetBooksHandler handler) =>
-            {
-                List<BookSummaryDto> books = handler.Handle();
+            List<BookSummaryDto> books = await handler.HandleAsync(cancellationToken);
 
-                return TypedResults.Ok(books);
-            });
-        }
+            return TypedResults.Ok(books);
+        });
     }
 }

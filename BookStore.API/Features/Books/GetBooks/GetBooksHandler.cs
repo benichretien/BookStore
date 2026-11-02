@@ -1,20 +1,21 @@
 ﻿using BookStore.API.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.API.Features.Books.GetBooks
+namespace BookStore.API.Features.Books.GetBooks;
+
+public class GetBooksHandler(BookStoreContext dbContext)
 {
-    public class GetBooksHandler(BookStoreData data)
+    public async Task<List<BookSummaryDto>> HandleAsync(CancellationToken cancellationToken)
     {
-        public List<BookSummaryDto> Handle()
-        {
-            return data.GetBooks()
-                .Select(book => new BookSummaryDto(
-                    book.Id,
-                    book.Title,
-                    book.Author,
-                    book.Genre.Name,
-                    book.Price,
-                    book.PublishedDate))
-                .ToList();
-        }
+        return await dbContext.Books
+            .OrderBy(book => book.Title)
+            .Select(book => new BookSummaryDto(
+                book.Id,
+                book.Title,
+                book.Author,
+                book.Genre.Name,
+                book.Price,
+                book.PublishedDate))
+            .ToListAsync(cancellationToken);
     }
 }
