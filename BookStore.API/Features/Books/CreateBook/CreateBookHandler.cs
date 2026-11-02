@@ -3,23 +3,24 @@ using BookStore.API.Data;
 using BookStore.API.Features.Books.GetBook;
 using BookStore.API.Models;
 
-namespace BookStore.API.Features.Books.CreateBook
+namespace BookStore.API.Features.Books.CreateBook;
+
+public class CreateBookHandler(BookStoreContext dbContext)
 {
-    public class CreateBookHandler(BookStoreData data)
+    public async Task<Result<BookDetailsDto>> HandleAsync(CreateBookDto newBook, CancellationToken cancellationToken)
     {
-        public Result<BookDetailsDto> Handle(CreateBookDto newBook)
+        Genre? genre = await dbContext.Genres.FindAsync([newBook.GenreId], cancellationToken);
+
+        if (genre is null)
         {
-            Genre? genre = data.GetGenre(newBook.GenreId);
-
-            if (genre is null)
-            {
-                return BookErrors.GenreNotFound;
-            }
-
-            Book book = new(newBook.Title, newBook.Author, genre, newBook.Price, newBook.PublishedDate);
-            data.AddBook(book);
-
-            return BookDetailsDto.FromBook(book);
+            return BookErrors.GenreNotFound;
         }
+
+        Book book = new(newBook.Title, newBook.Author, genre, newBook.Price, newBook.PublishedDate);
+
+        dbContext.Books.Add(book);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return BookDetailsDto.FromBook(book);
     }
 }
